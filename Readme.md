@@ -21,7 +21,8 @@ Notes : tous les fichiers incluent les fichiers des exercices précédents. Les 
 * `exercice2.c` et `exercice2.h` contiennent les fonctions permettant la génération des valeurs des clefs ainsi que le chiffrement et le déchiffrement de ces valeurs ;
 * `exercice3.c` et `exercice3.h` contiennent les fonction pour initialiser les structures de clefs et de signatures ainsi que les fonctions pour les vérifier et les convertir en chaîne de caractère ;
 * `exercice4.c` et `exercice4.h` contiennent la fonction de génération de votants, de candidats et de clefs et leur écriture dans un fichier ;
-* `exercice5.c` et `exercice5.h` permettent la lecture des clefs depuis un fichier.
+* `exercice5.c` et `exercice5.h` permettent la lecture des clefs depuis un fichier ;
+* `exercice6.c` et `exercice6.h` permettent gérer l'assignation des voix des votant et de séléctionner le candidat gagnant.
 
 ### Structures utilisées
 
@@ -86,6 +87,20 @@ typedef struct {
 ```
 
 Ces deux dernières structures représentent une table de hachage de clefs.
+
+### Jeux de Test
+
+`main1.c` contient les test de performance des focntions mathématiques.
+
+`main2.c` crée un couple de valeurs clef, les affiches, et encode et décode une chaîne de caractère.
+
+`main3.c` crée deux couple de clef et les convertit en chaîne de caractère. Ces clef sont  ensuite utilisées pour créé une signature qui est ensuite affichée et convertit en chaîne de carctère. Cette chaine est ensuite reconvertit en signature pour vérifier la réversibilité de l'opération. Enfin la protection des signature est testée.
+
+`main4.c` teste la fonction Generate_roandom_data() sur 500 votant et 5 candidats aléatoires. Chaqu'un des votant votant pour un candidat aléatoire. Ces données sont ensuite stocké dans les fichier "key.txt" et "declaration.txt" repectivement
+
+`main5.c` affiche le fichier "key.txt" et "declaration.txt" généré précedement. Puis supprime toute les déclarations invalide et affiche les déclaration après correction.
+
+`main6.c` génére NBVOTERS votants et NBCANDIDATS candidats dans des fichier comme expliquer précédement. Ces fichier sont ensuite lu et vérifiés. A partir des données verifiées la clef du vainqueur de l'éléction est séléctionné.
 
 ### Réponses aux questions
 
