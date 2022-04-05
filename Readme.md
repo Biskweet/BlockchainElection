@@ -95,6 +95,6 @@ Ces deux dernières structures représentent une table de hachage de clefs.
 
 5. Performances des fonctions d'exponentiation modulaire :
 
-![image-20220328194609462](/home/gaspard/.config/Typora/typora-user-images/image-20220328194609462.png)
+![image-20220328194609462](./graph.png)
 
 On voit clairement l'efficacité supérieure du `modpow` non naïf en termes de temps de calcul de $a^m \text{ mod } n$ lorsque $m$ devient très grand (pour $a=2147481647$ et $n=34694$).
