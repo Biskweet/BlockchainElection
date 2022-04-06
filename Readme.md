@@ -37,12 +37,16 @@ typedef struct {
 } Key;
 ```
 
+Key contient une valeur val unique à la clef et n commun entre la clef privée et la clef publique.
+
 ```c
 typedef struct {
     long* data;
     unsigned int size;
 } Signature;
 ```
+
+Signature contient un pointeur vers un tableau de long dans data et la longueur dudit tableau. Le tableau data contient chaque caractère du message initial encrypté sous forme de long.
 
 ```c
 typedef struct {
@@ -51,6 +55,8 @@ typedef struct {
     Signature* signature;
 } Protected;
 ```
+
+Protected contient la clef publique pKey, une chaîne de caractère msg et la Signature correspondant à cette chaîne dans signature. 
 
 * Dans `exercice4.h` :
 
@@ -96,7 +102,7 @@ Ces deux dernières structures représentent une table de hachage de clefs.
 
 `main3.c` crée deux couple de clef et les convertit en chaîne de caractère. Ces clef sont  ensuite utilisées pour créé une signature qui est ensuite affichée et convertit en chaîne de carctère. Cette chaine est ensuite reconvertit en signature pour vérifier la réversibilité de l'opération. Enfin la protection des signature est testée.
 
-`main4.c` teste la fonction Generate_roandom_data() sur 500 votant et 5 candidats aléatoires. Chaqu'un des votant votant pour un candidat aléatoire. Ces données sont ensuite stocké dans les fichier "key.txt" et "declaration.txt" repectivement
+`main4.c` teste la fonction Generate_roandom_data() sur 500 votant et 5 candidats aléatoires. Chacun des votants votants pour un candidat aléatoire. Ces données sont ensuite stocké dans les fichier "key.txt" et "declaration.txt" repectivement
 
 `main5.c` affiche le fichier "key.txt" et "declaration.txt" généré précedement. Puis supprime toute les déclarations invalide et affiche les déclaration après correction.
 
