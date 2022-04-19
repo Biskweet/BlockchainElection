@@ -19,10 +19,6 @@ long extended_gcd(long s, long t, long *u, long *v) {
 
 
 void generate_keys_values(long p, long q, long* n, long* s, long* u) {
-    /*
-     * Generate values for private and public key in s and u respectively
-     */
-
     *n = p * q;
     long t = (p - 1) * (q - 1);
     long v = 1;
@@ -36,15 +32,10 @@ void generate_keys_values(long p, long q, long* n, long* s, long* u) {
 
 
 long* encrypt(char* chaine, long s, long n) {
-    /*
-     * Encrypt chaine in a long array with s and n as values and then return this array
-     */
-
-
     long* encrypted = (long*) malloc(sizeof(long) * strlen(chaine));
 
     if (encrypted == NULL) {
-        printf("Erreur d'allocation (encrypt).\n");
+        printerror("Erreur d'allocation (encrypt).\n");
         return NULL;
     }
 
@@ -57,14 +48,10 @@ long* encrypt(char* chaine, long s, long n) {
 
 
 char* decrypt(long* crypted, int size, long u, long n) {
-    /*
-     *  Decrypt the crypted long array with u and n as values and then return the message
-     */
-
     char* message = (char*) malloc(sizeof(char) * (size + 1));
 
     if (message == NULL) {
-        printf("Erreur d'allocation (decrypt).\n");
+        printerror("Erreur d'allocation (decrypt).\n");
         return NULL;
     }
 

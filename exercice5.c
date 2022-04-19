@@ -4,7 +4,7 @@
 CellKey* create_cell_key(Key* key) {
     CellKey* ckey = (CellKey*) malloc(sizeof(CellKey));
     if (ckey == NULL) {
-        printf("Erreur d'allocation (create_cell_key).\n");
+        printerror("Erreur d'allocation (create_cell_key).\n");
         return NULL;
     }
 
@@ -23,7 +23,7 @@ void ajout_tete_ck(CellKey** liste, CellKey* item) {
 CellKey* read_public_keys(char* nom_fichier) {
     FILE* f = fopen(nom_fichier, "r");
     if (f == NULL) {
-        printf("Erreur lors de l'ouverture du fichier (read_public_keys).\n");
+        printerror("Erreur lors de l'ouverture du fichier (read_public_keys).\n");
         return NULL;
     }
 
@@ -36,7 +36,7 @@ CellKey* read_public_keys(char* nom_fichier) {
         pKey = (Key*) malloc(sizeof(Key));
         
         if (pKey == NULL) {
-            printf("Erreur d'allocation (read_public_keys).\n");
+            printerror("Erreur d'allocation (read_public_keys).\n");
             return NULL;
         }
 
@@ -79,7 +79,7 @@ CellProtected* create_cell_protected(Protected* pr) {
     CellProtected* cellp = (CellProtected*) malloc(sizeof(CellProtected));
 
     if (cellp == NULL) {
-        printf("Erreur d'allocation (create_cell_protected).\n");
+        printerror("Erreur d'allocation (create_cell_protected).\n");
         return NULL;
     }
 
@@ -95,11 +95,11 @@ void ajout_tete_cp(CellProtected** liste, CellProtected* item) {
 }
 
 
-CellProtected* read_protected() {
-    FILE* f = fopen("declarations.txt", "r");
+CellProtected* read_protected(char* filename) {
+    FILE* f = fopen(filename, "r");
 
     if (f == NULL) {
-        printf("Erreur lors de l'ouverture du fichier (read_protected).\n");
+        printerror("Erreur lors de l'ouverture du fichier (read_protected).\n");
         return NULL;
     }
 

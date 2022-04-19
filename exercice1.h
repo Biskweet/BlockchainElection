@@ -18,3 +18,5 @@ long rand_long(long, long);
 int is_prime_miller(long, int);
 
 long random_prime_number(int, int, int);
+
+void printerror(char*);

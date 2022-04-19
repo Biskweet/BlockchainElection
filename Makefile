@@ -1,44 +1,68 @@
 CC=gcc
-CFLAGS=-Wall -lm
-PROGRAMS=main6
+CFLAGS=-Wall -lm -lcrypto
+FUNCTIONS=exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o exercice7.o exercice8.o exercice9.o
+MAINS=main1 main2 main3 main4 main5 main6 main7 main8 main9
 
-exercice1:
-	$(CC) $(CFLAGS) -c exercice1.c
 
-main1: exercice1
-	$(CC) $(CFLAGS) exercice1.o main1.c -o main1
+all: $(MAINS)
 
-exercice2:
-	$(CC) $(CFLAGS) -c exercice2.c
-
-main2: exercice1 exercice2
-	$(CC) $(CFLAGS) exercice2.o exercice1.o main2.c -o main2
-
-exercice3:
-	$(CC) $(CFLAGS) -c exercice3.c
-
-main3: exercice1 exercice2 exercice3
-	$(CC) $(CFLAGS) exercice3.o exercice2.o exercice1.o main3.c -o main3
-
-exercice4:
-	$(CC) $(CFLAGS) -c exercice4.c
-
-main4: exercice1 exercice2 exercice3 exercice4
-	$(CC) $(CFLAGS) exercice4.o exercice3.o exercice2.o exercice1.o main4.c -o main4
-
-exercice5:
-	$(CC) $(CFLAGS) -c exercice5.c
-
-main5: exercice1 exercice2 exercice3 exercice4 exercice5 exercice6
-	$(CC) $(CFLAGS) exercice6.o exercice5.o exercice4.o exercice3.o exercice2.o exercice1.o main5.c -o main5
-
-exercice6:
-	$(CC) $(CFLAGS) -c exercice6.c
-
-main6: exercice1 exercice2 exercice3 exercice4 exercice5 exercice6
-	$(CC) $(FLAGS) exercice6.o exercice5.o exercice4.o exercice3.o exercice2.o exercice1.o main6.c -o main6
-
-all: $(PROGRAMS)
 
 clean:
-	rm -f *.o main1 main2 main3 main4 main5 main6 vgcore.*
+	rm -f *.o $(MAINS) vgcore.* ./blockchain/*
+
+
+exercice1.o: exercice1.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice2.o: exercice2.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice3.o: exercice3.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice4.o: exercice4.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice5.o: exercice5.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice6.o: exercice6.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice7.o: exercice7.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice8.o: exercice8.c
+	$(CC) $(CFLAGS) -c $^
+
+exercice9.o: exercice9.c
+	$(CC) $(CFLAGS) -c $^
+
+
+main1: main1.c exercice1.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main2: main2.c exercice1.o exercice2.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main3: main3.c exercice1.o exercice2.o exercice3.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main4: main4.c exercice1.o exercice2.o exercice3.o exercice4.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main5: main5.c exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main6: main6.c exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main7: main7.c exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o exercice7.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main8: main8.c exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o exercice7.o exercice8.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+main9: main9.c exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o exercice7.o exercice8.o exercice9.c
+	$(CC) $(CFLAGS) $^ -o $@
+

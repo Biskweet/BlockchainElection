@@ -2,9 +2,11 @@
 
 
 void generate_random_data(int nv, int nc) {
+    srand(time(NULL));
+
     FILE* f = fopen("keys.txt", "w");
     if (f == NULL) {
-        printf("Erreur lors de l'ouverture du fichier.\n"); return;
+        printerror("Erreur lors de l'ouverture du fichier.\n"); return;
     }
 
     Key *pKey, *sKey;
@@ -16,7 +18,7 @@ void generate_random_data(int nv, int nc) {
         sKey = (Key*) malloc(sizeof(Key));
 
         if ((pKey == NULL) || (sKey == NULL)) {
-            printf("Erreur d'allocation (generate_random_data).\n");
+            printerror("Erreur d'allocation (generate_random_data).\n");
             return;
         }
 
@@ -36,11 +38,11 @@ void generate_random_data(int nv, int nc) {
     fclose(f);
 
     Key* candidates[nc];
-    for (int i = 0; i < nc; i++) candidates[i] = NULL;  // To be able to iterate over it more easily
+    for (int i = 0; i < nc; i++) candidates[i] = NULL;  // Cleaning the array before using it
 
     f = fopen("candidates.txt", "w");
     if (f == NULL) {
-        printf("Erreur lors de l'ouverture du fichier.\n"); return;
+        printerror("Erreur lors de l'ouverture du fichier.\n"); return;
     }
 
     for (int i = 0; i < nc; i++) {
@@ -52,7 +54,7 @@ void generate_random_data(int nv, int nc) {
         candidates[i] = klist[index][0];
 
         char* cKey_str = key_to_str(candidates[i]);
-        fprintf(f, "%s\n", cKey_str);
+        fprintf(f, "%s ㅤ\n", cKey_str);
 
         free(cKey_str);
     }
@@ -61,7 +63,7 @@ void generate_random_data(int nv, int nc) {
 
     f = fopen("declarations.txt", "w");
     if (f == NULL) {
-        printf("Erreur lors de l'ouverture du fichier.\n"); return;
+        printerror("Erreur lors de l'ouverture du fichier.\n"); return;
     }
 
     Protected* pr;
@@ -96,7 +98,7 @@ void generate_random_data(int nv, int nc) {
 
 
 int is_in(Key* x, Key* klist[]) {
-    for(int i = 0; klist[i] != NULL; i++) {
+    for (int i = 0; klist[i] != NULL; i++) {
         if (klist[i] == x) {
             return 1;
         }

@@ -25,14 +25,10 @@ void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size) {
 
 
 char* key_to_str(Key* key) {
-    /*
-     * convert key values in a string and return them
-     */
-
     char* str = (char*) malloc(sizeof(char) * 12);
 
     if (str == NULL) {
-        printf("Erreur d'allocation (key_to_str).\n");
+        printerror("Erreur d'allocation (key_to_str).\n");
         return NULL;
     }
 
@@ -45,7 +41,7 @@ Key* str_to_key(char* str) {
     Key* key = (Key*) malloc(sizeof(Key));
 
     if (key == NULL) {
-        printf("Erreur d'allocation (str_to_key).\n");
+        printerror("Erreur d'allocation (str_to_key).\n");
         return NULL;
     }
 
@@ -58,7 +54,7 @@ Signature* init_signature(long* content, int size) {
     Signature* signature = (Signature*) malloc(sizeof(Signature));
 
     if (signature == NULL) {
-        printf("Erreur d'allocation (init_signature).\n");
+        printerror("Erreur d'allocation (init_signature).\n");
         return NULL;
     }
 
@@ -67,7 +63,7 @@ Signature* init_signature(long* content, int size) {
     signature->data = (long*) malloc(sizeof(long) * size);
 
     if (signature->data == NULL) {
-        printf("Erreur d'allocation (init_signature).\n");
+        printerror("Erreur d'allocation (init_signature).\n");
         return NULL;
     }
 
@@ -84,7 +80,7 @@ Signature* sign(char* mess, Key* sKey) {
     Signature* s = (Signature*) malloc(sizeof(Signature));
 
     if (s == NULL) {
-        printf("Erreur d'allocation (sign).\n");
+        printerror("Erreur d'allocation (sign).\n");
         return NULL;
     }
 
@@ -99,7 +95,7 @@ char* signature_to_str(Signature* sgn) {
     char* result = (char*) malloc(sizeof(char) * ((sgn->size) * 5 + 2));
 
     if (result == NULL) {
-        printf("Erreur d'allocation (signature_to_str).\n");
+        printerror("Erreur d'allocation (signature_to_str).\n");
         return NULL;
     }
 
@@ -127,7 +123,7 @@ Signature* str_to_signature(char* str) {
     long* content = (long*) malloc(sizeof(long) * len);
 
     if (content == NULL) {
-        printf("Erreur d'allocation (str_to_signature).\n");
+        printerror("Erreur d'allocation (str_to_signature).\n");
         return NULL;
     }
 
@@ -157,7 +153,7 @@ Protected* init_protected(Key* pKey, char* mess, Signature* sign) {
     Protected* p = (Protected*) malloc(sizeof(Protected));
 
     if (p == NULL) {
-        printf("Erreur d'allocation (init_protected).\n");
+        printerror("Erreur d'allocation (init_protected).\n");
         return NULL;
     }
 
@@ -181,7 +177,7 @@ char* protected_to_str(Protected* pr) {
     char* str = malloc(sizeof(char) * 81);
 
     if (str == NULL) {
-        printf("Erreur d'allocation (protected_to_str).\n");
+        printerror("Erreur d'allocation (protected_to_str).\n");
         return NULL;
     }
 
@@ -198,14 +194,14 @@ Protected* str_to_protected(char* str) {
     Protected* p = (Protected*) malloc(sizeof(Protected));
 
     if (p == NULL) {
-        printf("Erreur d'allocation (str_to_protected).\n");
+        printerror("Erreur d'allocation (str_to_protected).\n");
         return NULL;
     }
 
     p->msg = (char*) malloc(sizeof(char) * 12);
 
     if (p->msg == NULL) {
-        printf("Erreur d'allocation (str_to_protected).\n");
+        printerror("Erreur d'allocation (str_to_protected).\n");
         return NULL;
     }
 

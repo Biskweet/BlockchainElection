@@ -29,7 +29,7 @@ CellProtected* create_cell_protected(Protected*);
 
 void ajout_tete_cp(CellProtected**, CellProtected*);
 
-CellProtected* read_protected();
+CellProtected* read_protected(char*);
 
 void print_list_pr(CellProtected*);
 

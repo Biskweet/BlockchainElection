@@ -109,3 +109,8 @@ long random_prime_number(int low_size, int up_size, int k) {
     // Should never trigger (the interval should always have prime numbers)
     printf("Pas de nombre premier dans l'intervalle donné.\n"); return -1;
 }
+
+
+void printerror(char* str) {
+    printf("\033[31m%s\033[0m", str);
+}
