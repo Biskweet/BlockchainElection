@@ -124,6 +124,8 @@ Key* compute_winner_BT(CellTree* tree, CellKey* candidates, CellKey* voters, int
     CellProtected* votes = get_trusted_votes(tree);
     supprimer_invalides(&votes);
 
+    print_list_pr(votes);
+
     Key* winner = compute_winner(votes, candidates, voters, sizeC, sizeV);
     delete_list_protected(votes);
 
@@ -132,7 +134,7 @@ Key* compute_winner_BT(CellTree* tree, CellKey* candidates, CellKey* voters, int
 
 
 CellKey* give_random_cellkey(CellKey* keys, int size) {
-    int number = (rand() % size) + 1;
+    int number = rand() % size;
 
     while (number-- != 0) {
         keys = keys->next;
@@ -145,24 +147,19 @@ CellKey* give_random_cellkey(CellKey* keys, int size) {
 void free_all_protected_in_tree(CellTree* tree) {
     while (tree != NULL) {
         CellProtected* vote_copy = tree->block->votes;
-        
-        // free(tree->block->author);
-        // free(tree->block->hash);
-
-        // if (tree->block->hash != NULL) {
-        //     free(tree->block->hash);
-        //     tree->block->hash = NULL;
-        // }
-
-        // if (tree->block->previous_hash != NULL) {
-        //     free(tree->block->previous_hash);
-        //     tree->block->previous_hash = NULL;
-        // }
 
         while (vote_copy != NULL) {
             liberer_protected(vote_copy->data);
             vote_copy = vote_copy->next;
         }
+
+        tree = tree->firstChild;
+    }
+}
+
+void free_all_authors_in_tree(CellTree* tree) {
+    while (tree != NULL) {        
+        free(tree->block->author);
         tree = tree->firstChild;
     }
 }

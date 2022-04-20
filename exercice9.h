@@ -17,3 +17,5 @@ Key* compute_winner_BT(CellTree*, CellKey*, CellKey*, int, int);
 CellKey* give_random_cellkey(CellKey*, int);
 
 void free_all_protected_in_tree(CellTree*);
+
+void free_all_authors_in_tree(CellTree* tree);

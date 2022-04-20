@@ -156,6 +156,8 @@ Key* compute_winner(CellProtected* decl, CellKey* candidates, CellKey* voters, i
         }
     }
 
+    printf("Winner has %d votes.\n", max);
+
     Key* winner_copy = (Key*) malloc(sizeof(Key));
     if (winner_copy == NULL) {
         printerror("Erreur d'allocation (compute_winner)\n");

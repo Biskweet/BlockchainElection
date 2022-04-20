@@ -1,13 +1,13 @@
 #include "exercice9.h"
-#define NBVOTERS 20
-#define NBCANDIDATES 1
+#define NBVOTERS 21
+#define NBCANDIDATES 5
 
 
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
 
     system("rm -f ./blockchain/*");
-    generate_random_data(NBVOTERS, NBCANDIDATES);
+    // generate_random_data(NBVOTERS, NBCANDIDATES);
 
     CellProtected* votes = read_protected("declarations.txt");
     CellKey* keys = read_public_keys("keys.txt");
@@ -28,12 +28,13 @@ int main(int argc, char const *argv[]) {
             create_block(tree, give_random_cellkey(keys, NBVOTERS)->data, NO_ZEROS);
 
             file_number++;
-            sprintf(file_name, "block_%d", file_number);
+            sprintf(file_name, "block_%d.txt", file_number);
             add_block(NO_ZEROS, file_name);
 
             count = 0;
 
             free_all_protected_in_tree(tree);
+            free_all_authors_in_tree(tree);
             delete_tree(tree);
 
             tree = read_tree();
@@ -47,10 +48,11 @@ int main(int argc, char const *argv[]) {
         create_block(tree, give_random_cellkey(keys, NBVOTERS)->data, NO_ZEROS);
 
         file_number++;
-        sprintf(file_name, "block_%d", file_number);
+        sprintf(file_name, "block_%d.txt", file_number);
         add_block(NO_ZEROS, file_name);
 
         free_all_protected_in_tree(tree);
+        free_all_authors_in_tree(tree);
         delete_tree(tree);
 
         tree = read_tree();
@@ -66,8 +68,12 @@ int main(int argc, char const *argv[]) {
         free(winner);
     }
 
+    // Freeing tree
+    free_all_authors_in_tree(tree);
     // free_all_protected_in_tree(tree);
     delete_tree(tree);
+
+    // Freeing voters, candidates and votes 
     delete_list_protected(votes);
     delete_list_keys(keys);
     delete_list_keys(candidates);

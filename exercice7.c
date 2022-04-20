@@ -158,7 +158,6 @@ int verify_block(Block* b, int n) {
 
 
 void delete_block(Block* b) {
-    // delete_list_protected(b->votes);
     if (b->hash != NULL) free(b->hash);
     if (b->previous_hash != NULL) free(b->previous_hash);
 
@@ -169,6 +168,5 @@ void delete_block(Block* b) {
         b->votes = temp;
     }
 
-    // free(b->author);
     free(b);
 }
