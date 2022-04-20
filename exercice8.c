@@ -77,8 +77,6 @@ void delete_tree(CellTree* node) {
 
 
 CellTree* highest_child(CellTree* tree) {
-    // printf("&(tree->firstChild->nextBro) = %d\n", tree->firstChild->nextBro);
-
     CellTree* current = tree->firstChild; 
     CellTree* highest = current;
     

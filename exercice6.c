@@ -82,7 +82,7 @@ HashTable* create_hashtable(CellKey* keys, int size) {
         } else {
             prev->next = keys->next;
             delete_cell_key(keys);  // Freeing non-placable keys
-            keys = prev; 
+            keys = prev;
         }
 
         prev = keys;

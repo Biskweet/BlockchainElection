@@ -51,6 +51,7 @@ Key* str_to_key(char* str) {
 
 
 Signature* init_signature(long* content, int size) {
+    // Content is the encrypted version of the message
     Signature* signature = (Signature*) malloc(sizeof(Signature));
 
     if (signature == NULL) {
