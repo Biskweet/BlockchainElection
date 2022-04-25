@@ -22,7 +22,7 @@ Le programme se décompose en plusieurs fichiers sources (`exercice`$_i$ ) et de
 
 Attention : le fichier `main9.c` est le seul *main* à ne pas proposer de simples tests, mais une simulation complète d'une élection en automatique et aléatoire. Il est encouragé de tester individuellement les *main* dans l'ordre.
 
-Ne pas oublier de créer le dossier `blockchain/`, ni supprimer les fichiers `block.txt` et `testvotes.txt` qui sont utilisés dans des tests !
+Ne pas oublier de créer le dossier `blockchain/`, et ne pas supprimer les fichiers `block.txt` et `testvotes.txt` qui sont utilisés dans des tests !
 
 
 
@@ -227,3 +227,4 @@ La majorité des fonctions de ce projet sont codées de manière à être suffis
 
 En conclusion, un système de vote électronique par *blockchain* est utile sur plusieurs points. D'abord parce que cela permet un vote à distance, ce qui peut effectivement participer à réduire l'abstention et à augmenter la confiance en la légitimité de l'élection. En effet, par la décentralisation, chacun possède copie ou partie de la *blockchain* sur son ordinateur. Il est très difficile de frauder dans une élection pareille, car il faudrait alors contrôler plus de 50% des éléments du réseau de la *blockchain* pour valider un vote frauduleux. Néanmoins, dans un cadre comme ici, il existe tout de même des moyens de falsifier une élection (comme de noyer de faux votes la *blockchain* juste avant la fermeture des votes). Par ailleurs, une *blockchain* telle que nous l'avons implémentée ici empêche l'anonymat des votes. C'est donc un outil très utile, mais qui possède ses limites.
 
+###### 
