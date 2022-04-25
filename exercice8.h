@@ -17,11 +17,11 @@ int update_height(CellTree*, CellTree*);
 
 void add_child(CellTree*, CellTree*);
 
-void delete_node(CellTree*);
+void delete_node(CellTree*, int);
+
+void delete_tree(CellTree*, int);
 
 void print_tree(CellTree*);
-
-void delete_tree(CellTree*);
 
 CellTree* highest_child(CellTree*);
 

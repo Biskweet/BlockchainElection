@@ -26,13 +26,12 @@ void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size) {
 
 char* key_to_str(Key* key) {
     char* str = (char*) malloc(sizeof(char) * 12);
-
     if (str == NULL) {
-        printerror("Erreur d'allocation (key_to_str).\n");
-        return NULL;
+        printerror("Erreur d'allocation (key_to_str).\n"); return NULL;
     }
 
     sprintf(str, "(%lx,%lx)", key->val, key->n);
+
     return str;
 }
 
@@ -50,8 +49,7 @@ Key* str_to_key(char* str) {
 }
 
 
-Signature* init_signature(long* content, int size) {
-    // Content is the encrypted version of the message
+Signature* init_signature(long* content /* encrypted version of the message */, int size) {
     Signature* signature = (Signature*) malloc(sizeof(Signature));
 
     if (signature == NULL) {
@@ -224,8 +222,8 @@ void liberer_signature(Signature* sig) {
 
 
 void liberer_protected(Protected* pr) {
+    free(pr->pKey);
     free(pr->msg);
     liberer_signature(pr->signature);
-    free(pr->pKey);
     free(pr);
 }

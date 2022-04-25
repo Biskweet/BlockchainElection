@@ -2,14 +2,14 @@
 
 
 int main(int argc, char const *argv[]) {
-    // const char* s = "Rosetta code";
-    // unsigned char* d = SHA256((unsigned char*) s, strlen(s), 0);
-    // for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) printf("%02x", d[i]);
-    // putchar('\n');
+    const char* s = "Rosetta code";
+    unsigned char* d = SHA256((unsigned char*) s, strlen(s), 0);
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) printf("%02x", d[i]);
+    putchar('\n');
 
-    // unsigned char* res = hash_str((unsigned char*) "binouze");
-    // printf("%s\n", res);
-    // free(res);
+    unsigned char* res = hash_str((unsigned char*) "binouze");
+    printf("%s\n", res);
+    free(res);
 
     Block* b = read_block("block.txt");
 
@@ -30,13 +30,13 @@ int main(int argc, char const *argv[]) {
 
         time = (double) (fin - debut) / CLOCKS_PER_SEC;
 
-        printf("After computing PoW : %s (nonce=%d, calc time is %lfs)\n\n", b->hash, b->nonce, time);
+        printf("After computing PoW : %s (d=%d, nonce=%d, calc time is %lfs)\n\n", b->hash, i, b->nonce, time);
         fprintf(f, "%d %lf\n", i, time);
     }
 
     fclose(f);
 
-    delete_block(b);
+    fully_delete_block(b);
 
     return 0;
 }

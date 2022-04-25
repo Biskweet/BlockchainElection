@@ -158,15 +158,32 @@ int verify_block(Block* b, int n) {
 
 
 void delete_block(Block* b) {
-    if (b->hash != NULL) free(b->hash);
-    if (b->previous_hash != NULL) free(b->previous_hash);
+    free(b->hash);
+    b->hash = NULL;
 
-    CellProtected* temp;
+    if (b->previous_hash != NULL) {
+        free(b->previous_hash);
+        b->previous_hash = NULL;
+    }
+
     while (b->votes != NULL) {
-        temp = b->votes->next;
-        free(b->votes);
-        b->votes = temp;
+        CellProtected* temp = b->votes;
+        b->votes = b->votes->next;
+        free(temp);
     }
 
     free(b);
+}
+
+
+void fully_delete_block(Block* b) {
+    free(b->author);
+
+    CellProtected* votes = b->votes;
+    while (votes != NULL) {
+        liberer_protected(votes->data);
+        votes = votes->next;
+    }
+
+    delete_block(b);
 }

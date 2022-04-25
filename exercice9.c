@@ -61,7 +61,7 @@ void add_block(int d, char* name) {
         write_block(filepath, block);
     }
 
-    delete_block(block);
+    fully_delete_block(block);
     remove("pending_block.txt");
 }
 
@@ -75,7 +75,7 @@ CellTree* read_tree() {
     if (rep != NULL) {
         // Counting all files
         while ((dir = readdir(rep))) {
-            if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0) {
+            if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")) {  // Neither . nor ..
                 file_no++;
             }
         }
@@ -84,9 +84,9 @@ CellTree* read_tree() {
     CellTree* node_arr[file_no];
 
     rewinddir(rep);
-    chdir("./blockchain/");          // Moving to the correct directory
+    chdir("./blockchain/");  // Moving to the correct directory
     while ((dir = readdir(rep))) {
-        if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0) {
+        if (strcmp(dir->d_name, ".") && strcmp(dir->d_name, "..")) {  // Neither . nor ..
             Block* block = read_block(dir->d_name);
             node_arr[i] = create_node(block);  // Will break
             i++;
@@ -111,10 +111,6 @@ CellTree* read_tree() {
         if (node_arr[i]->father == NULL) root = node_arr[i];
     }
 
-    // for (i = 0; i < file_no; i++) {
-    //     delete_node(node_arr[i]);
-    // }
-
     if (root == NULL) printerror("Returning NULL in read_tree.\n");
     return root;
 }
@@ -124,10 +120,13 @@ Key* compute_winner_BT(CellTree* tree, CellKey* candidates, CellKey* voters, int
     CellProtected* votes = get_trusted_votes(tree);
     supprimer_invalides(&votes);
 
-    print_list_pr(votes);
-
     Key* winner = compute_winner(votes, candidates, voters, sizeC, sizeV);
-    delete_list_protected(votes);
+    
+    while (votes != NULL) {
+        CellProtected* temp = votes;
+        votes = votes->next;
+        free(temp);
+    }
 
     return winner;
 }
@@ -146,11 +145,11 @@ CellKey* give_random_cellkey(CellKey* keys, int size) {
 
 void free_all_protected_in_tree(CellTree* tree) {
     while (tree != NULL) {
-        CellProtected* vote_copy = tree->block->votes;
 
-        while (vote_copy != NULL) {
-            liberer_protected(vote_copy->data);
-            vote_copy = vote_copy->next;
+        CellProtected* votes = tree->block->votes;
+        while (votes != NULL) {
+                liberer_protected(votes->data);
+                votes = votes->next;
         }
 
         tree = tree->firstChild;

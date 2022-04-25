@@ -1,5 +1,5 @@
 #include "exercice9.h"
-#define NBVOTERS 21
+#define NBVOTERS 1000
 #define NBCANDIDATES 5
 
 
@@ -7,7 +7,7 @@ int main(int argc, char const *argv[]) {
     srand(time(NULL));
 
     system("rm -f ./blockchain/*");
-    // generate_random_data(NBVOTERS, NBCANDIDATES);
+    generate_random_data(NBVOTERS, NBCANDIDATES);
 
     CellProtected* votes = read_protected("declarations.txt");
     CellKey* keys = read_public_keys("keys.txt");
@@ -16,12 +16,11 @@ int main(int argc, char const *argv[]) {
     CellProtected* votes_copy = votes;
     CellTree* tree = NULL;
 
-    votes_copy = votes;
     int count = 0, file_number = 0;
     char file_name[16];
 
-    while (votes_copy != NULL) {
-        submit_vote(votes_copy->data);
+    while (votes != NULL) {
+        submit_vote(votes->data);
 
         count++;
         if (count == 10) {
@@ -35,12 +34,12 @@ int main(int argc, char const *argv[]) {
 
             free_all_protected_in_tree(tree);
             free_all_authors_in_tree(tree);
-            delete_tree(tree);
+            delete_tree(tree, 0);
 
             tree = read_tree();
         }
 
-        votes_copy = votes_copy->next;
+        votes = votes->next;
     }
 
     // If some votes have not been block'd yet (if NBVOTERS % 10 != 0)
@@ -53,7 +52,7 @@ int main(int argc, char const *argv[]) {
 
         free_all_protected_in_tree(tree);
         free_all_authors_in_tree(tree);
-        delete_tree(tree);
+        delete_tree(tree, 0);
 
         tree = read_tree();
     }
@@ -70,13 +69,15 @@ int main(int argc, char const *argv[]) {
 
     // Freeing tree
     free_all_authors_in_tree(tree);
-    // free_all_protected_in_tree(tree);
-    delete_tree(tree);
+    free_all_protected_in_tree(tree);
+
+    delete_tree(tree, 0);
+    
 
     // Freeing voters, candidates and votes 
-    delete_list_protected(votes);
+    delete_list_protected(votes_copy);
     delete_list_keys(keys);
     delete_list_keys(candidates);
-
+    
     return 0;
 }

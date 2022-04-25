@@ -53,26 +53,32 @@ void print_tree(CellTree* tree) {
     if (tree == NULL) return;
 
     printf("\nHauteur %d : %s\n", tree->height, tree->block->hash);
-    printf("\tSelf : %p\n\tfather : %p\n\tfirstChild : %p\n\tnextBro : %p\n\tPrevious_hash : %s\n",tree, tree->father, tree->firstChild, tree->nextBro, (char*) tree->block->previous_hash);
+    printf("\tself : %p\n\tfather : %p\n\tfirstChild : %p\n\tnextBro : %p\n\tprevious_hash : %s\n",tree, tree->father, tree->firstChild, tree->nextBro, (char*) tree->block->previous_hash);
     
     print_tree(tree->nextBro);
     print_tree(tree->firstChild);
 }
 
 
-void delete_node(CellTree* node) {
-    delete_block(node->block);
+void delete_node(CellTree* node, int full) {
+    if (full) fully_delete_block(node->block);
+    else delete_block(node->block);
+
     free(node);
 }
 
 
-void delete_tree(CellTree* node) {
+void delete_tree(CellTree* node, int full) {
     if (node == NULL) return;
 
-    delete_tree(node->nextBro);
-    delete_tree(node->firstChild);
+    delete_tree(node->nextBro, full);
 
-    delete_node(node);
+    while (node != NULL) {
+        CellTree* temp = node;
+        node = node->firstChild;
+        delete_node(temp, full);
+    }
+    // delete_tree(node->firstChild, full);
 }
 
 

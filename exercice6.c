@@ -2,11 +2,13 @@
 
 
 void supprimer_invalides(CellProtected** l) {
+    /* Removes and frees all invalid protected from the list */
+
     CellProtected* copie = *l;
 
     if (copie == NULL) return;
 
-    // Will check the first elemement at the end
+    // We will check the first elemement at the end
     while (copie->next != NULL) {
         if (!verify(copie->next->data)) {
             CellProtected* temp = copie->next;
@@ -81,7 +83,7 @@ HashTable* create_hashtable(CellKey* keys, int size) {
             hshtb->tab[index] = create_hashcell(keys->data);
         } else {
             prev->next = keys->next;
-            delete_cell_key(keys);  // Freeing non-placable keys
+            delete_cell_key(keys);  // The key can't be placed so it is freed
             keys = prev;
         }
 

@@ -1,12 +1,12 @@
 #include "exercice6.h"
-#define NBVOTERS 21
-#define NBCANDIDATES 5
+#define NBVOTERS 300
+#define NBCANDIDATES 10
 
 
 int main(int argc, char const *argv[]) {
     printf("Running election with %d voters and %d candidates.\n", NBVOTERS, NBCANDIDATES);
 
-    // generate_random_data(NBVOTERS, NBCANDIDATES);
+    generate_random_data(NBVOTERS, NBCANDIDATES);
 
     CellProtected* declarations = read_protected("declarations.txt");
     CellKey* voters = read_public_keys("keys.txt");

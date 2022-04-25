@@ -24,3 +24,5 @@ void compute_proof_of_work(Block*, int);
 int verify_block(Block*, int);
 
 void delete_block(Block*);
+
+void fully_delete_block(Block*);

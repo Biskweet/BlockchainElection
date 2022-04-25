@@ -4,45 +4,55 @@
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
 
-    Key *pKey = malloc(sizeof(Key));
-    Key *sKey = malloc(sizeof(Key));
+    Key* pKey = malloc(sizeof(Key));
+    Key* sKey = malloc(sizeof(Key));
+
     init_pair_keys(pKey, sKey ,3 ,7);
-    printf("pKey : %lx, %lx\n", pKey->val, pKey->n);
-    printf("sKey : %lx, %lx \n", sKey->val, sKey->n);
+
+    printf("pKey : (%lx, %lx)\n", pKey->val, pKey->n);
+    printf("sKey : (%lx, %lx)\n", sKey->val, sKey->n);
 
     char *chaine = key_to_str(pKey);
     printf("key to str : %s\n", chaine);
+
     Key *k = str_to_key(chaine);
-    printf("str to key : %lx, %lx\n", k->val , k->n);
+    printf("str to key : (%lx, %lx)\n", k->val, k->n);
 
 
-    Key *pKeyC = malloc(sizeof(Key));
-    Key *sKeyC = malloc(sizeof(Key));
-    init_pair_keys(pKeyC, sKeyC ,3 ,7);
+    Key* pKeyC = malloc(sizeof(Key));
+    Key* sKeyC = malloc(sizeof(Key));
+
+    init_pair_keys(pKeyC, sKeyC, 3, 7);
 
     char* msg = key_to_str(pKeyC);
     char* msg2 = key_to_str(pKey);
-    printf ("%s vote pour %s\n", msg2, msg);
+
+    printf("%s vote pour %s\n", msg2, msg);
+
     Signature *sig = sign(msg, sKey);
-    printf("Signature : ");
+
+    printf("Signature: ");
     print_long_vector(sig->data, sig->size);
+
     char* chaine2 = signature_to_str(sig);
-    printf("signature_to_str : %s\n", chaine2);
+    printf("signature_to_str: %s\n", chaine2);
+
     Signature * sig2 = str_to_signature(chaine2);
-    printf("str_to_signature : ");
+    printf("str_to_signature: ");
     print_long_vector(sig2->data, sig2->size);
 
 
     Protected *pr = init_protected(pKey, msg, sig2);
 
     if (verify(pr)) {
-      printf ("Signature valide.\n");
+      printf("Signature valide.\n");
     } else {
-      printf ("Signature non valide.\n");
+      printf("Signature non valide.\n");
     }
 
     char* chaine3 = protected_to_str(pr);
-    printf ("protected_to_str : %s\n", chaine3);
+    printf("protected_to_str: %s\n", chaine3);
+
     Protected* pr2 = str_to_protected(chaine3);
     char* msg3 = key_to_str(pr2->pKey);
     char* msg4 = signature_to_str(pr2->signature);
