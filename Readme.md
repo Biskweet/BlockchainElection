@@ -11,7 +11,8 @@ Ce projet cherche à reproduire un système de vote électronique sécurisé qui
 1. [Structures utilisées](###structures-utilisées)
 1. [Jeux de test](###jeux-de-test)
 1. [Réponses aux questions](###réponses-aux-questions)
-1. 
+1. [Algorithmes notables](###algorithmes-notables)
+1. [Conclusion](###conclusion)
 
 
 
@@ -64,7 +65,7 @@ typedef struct {
 } Key;
 ```
 
-`Key` contient une valeur `val` unique à la clef et `n` commune à la paire privée/publique.
+`Key` contient une valeur `val` unique à la clef et une valeur `n` commune à la paire privée/publique.
 
 ```c
 typedef struct {
@@ -127,7 +128,7 @@ typedef struct {
 
 * `main1.c` teste de performance des fonctions mathématiques ;
 * `main2.c` crée un couple de valeurs clefs, les affiches, puis encode et décode une chaîne de caractère ;
-* `main3.c` crée deux couple de clef et les convertit en chaîne de caractère. Ces clef sont  ensuite utilisées pour créé une signature qui est ensuite affichée et convertie en chaîne de caractères. Cette chaîne est ensuite reconvertit en signature pour vérifier la réversibilité de l'opération. Enfin, la protection des signature est testée ;
+* `main3.c` crée deux couple de clef et les convertit en chaîne de caractère. Ces clef sont  ensuite utilisées pour créer une signature qui est affichée et convertie en chaîne de caractères. Cette chaîne est alors reconvertie en signature pour vérifier la réversibilité de l'opération. Enfin, la protection de signature est testée ;
 * `main4.c` teste la fonction `generate_random_data` qui génère des votants, des candidats parmi eux et les déclarations de votes. Chacun des votants vote pour un candidat aléatoire. Ces données sont ensuite écrites dans les fichiers `keys.txt`, `candidates.txt` et `declaration.txt` respectivement ;
 * `main5.c` affiche les fichiers `keys.txt` et `declaration.txt` générés précédemment, puis supprime toutes les déclarations invalides et les affiche après correction ;
 * `main6.c` génère des votants et des candidats dans des fichier comme expliqué précédemment. On extrait ensuite les données des fichiers et on les vérifie. A partir des données vérifiées, on calcule et affiche le vainqueur de l'élection ;
@@ -140,12 +141,89 @@ typedef struct {
 
 ### Réponses aux questions
 
-1. La complexité de la fonction `is_prime_naif` est $O(p)$.
-2. Le plus petit nombre premier calculé en 2 millisecondes ou plus est $318683$.
-3. La complexité de la fonction `modpow_naif` est $O(m)$.
+  <u>**1.1.**</u> La complexité de la fonction `is_prime_naif` est $O(p)$.
 
-5. Performances des fonctions d'exponentiation modulaire :
+  <u>**1.2.**</u> Le plus petit nombre premier calculé en 2 millisecondes ou plus est $318683$.
 
-![image-20220328194609462](./graph.png)
+  <u>**1.3.**</u>  La complexité de la fonction `modpow_naif` est $O(m)$.
 
-On voit clairement l'efficacité supérieure du `modpow` non naïf en termes de temps de calcul de $a^m \text{ mod } n$ lorsque $m$ devient très grand (pour $a=2147481647$ et $n=34694$).
+  <u>**1.4.**</u>  Performances des fonctions d'exponentiation modulaire :
+
+![graph](./graph.png)
+
+On voit clairement l'efficacité supérieure du `modpow` non naïf (courbe violette sur l'axe des abscisses) en termes de temps de calcul de $a^m \text{ mod } n$ lorsque $m$ devient très grand (pour $a=2147481647$ et $n=34694$).
+
+  <u>**7.8.**</u> Performances du calcul de la *proof of work* :
+
+![graph2](./graph2.png)
+
+L'axe des ordonnées est en échelle logarithmique. On voit qu'ici, nul besoin d'en "déduire" le point à partir duquel le temps de calcul dépasse la seconde, il suffit de le lire : à partir de $d = 5$. La courbe semble plus ou moins linéaire. Étant donnée l'échelle logarithmique, cela signifie une augmentation exponentielle.
+
+  <u>**8.8.**</u> La fonction `fusion_chaines` a une complexité en $O(n)$. On pourrait atteindre une complexité en $O(1)$ en utilisant une structure de listes doublement chaînées.
+
+
+
+### Algorithmes notables
+
+La majorité des fonctions de ce projet sont codées de manière à être suffisamment claires pour ne pas nécessiter d'explication (variables explicites, commentaires ponctuels). Néanmoins, certains algorithmes utilisés peuvent tout de même nécessiter une explication synthétique. Bien que ces fonctions sont particulièrement commentées, il peut être utile d'expliquer l'idée derrière le programme.
+
+* `random_prime_number` part du [postulat de Bertrand](https://fr.wikipedia.org/wiki/Postulat_de_Bertrand). Elle prend un entier dans l'intervalle donné (entre deux puissances de 2), puis parcourt cet intervalle de manière croissante jusqu'à trouver un nombre premier. Si aucun nombre n'a été trouvé, la fonction retourne au nombre sélectionné aléatoirement et parcourt l'intervalle vers le bas.
+
+  ```c
+  long random_prime_number(int low_size, int up_size, int k) {
+      long min = pow(2, low_size), max = pow(2, up_size);
+  
+      long pivot = rand_long(min, max);  // Take a random integer in the interval
+  
+      // Iterating upwards to the first prime number found starting from the pivot
+      for (long i = pivot; i <= max; i += (i & 1 ? 2 : 1)) {  // (i & 1 ? 2 : 1) ensures checking only odd numbers
+          if (is_prime_miller(i, k)) return i;
+      }
+  
+      // If nothing found, iterating downwards in the interval
+      for (long i = pivot; i >= min; i -= (i & 1 ? 2 : 1)) {
+          if (is_prime_miller(i, k)) return i;
+      }
+  
+      // Should never trigger (the interval should always have prime numbers)
+      printf("Pas de nombre premier dans l'intervalle donné.\n"); return -1;
+  }
+  ```
+
+* `supprimer_invalides` vérifie d'abord la validité de la liste chaînée à l'exception du premier élément. Cet élément est vérifié manuellement après cela. Cela permet de simplifier le code de la fonction et ne pas avoir à faire des cas spéciaux dans sa structure, tout en gardant une simplicité à la lecture et exactement le même résultat pour des performances identiques.
+
+  ```c
+  void supprimer_invalides(CellProtected** l) {
+      /* Removes and frees all invalid protected from the list */
+  
+      CellProtected* copie = *l;
+  
+      if (copie == NULL) return;
+  
+      // We will check the first elemement at the end
+      while (copie->next != NULL) {
+          if (!verify(copie->next->data)) {
+              CellProtected* temp = copie->next;
+              copie->next = copie->next->next;
+              delete_cell_protected(temp);
+          } else {
+              copie = copie->next;
+          }
+      }
+  
+      copie = *l;
+  
+      // Checking the first element
+      if (!verify(copie->data)) {
+          *l = copie->next;
+          delete_cell_protected(copie); 
+      }
+  }
+  ```
+
+
+
+### Conclusion
+
+En conclusion, un système de vote électronique par *blockchain* est utile sur plusieurs points. D'abord parce que cela permet un vote à distance, ce qui peut effectivement participer à réduire l'abstention et à augmenter la confiance en la légitimité de l'élection. En effet, par la décentralisation, chacun possède copie ou partie de la *blockchain* sur son ordinateur. Il est très difficile de frauder dans une élection pareille, car il faudrait alors contrôler plus de 50% des éléments du réseau de la *blockchain* pour valider un vote frauduleux. Néanmoins, dans un cadre comme ici, il existe tout de même des moyens de falsifier une élection (comme de noyer de faux votes la *blockchain* juste avant la fermeture des votes). Par ailleurs, une *blockchain* telle que nous l'avons implémentée ici empêche l'anonymat des votes. C'est donc un outil très utile, mais qui possède ses limites.
+

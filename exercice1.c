@@ -97,7 +97,7 @@ long random_prime_number(int low_size, int up_size, int k) {
     long pivot = rand_long(min, max);  // Take a random integer in the interval
 
     // Iterating upwards to the first prime number found starting from the pivot
-    for (long i = pivot; i <= max; i += (i & 1 ? 2 : 1)) {  // Checking only odd numbers
+    for (long i = pivot; i <= max; i += (i & 1 ? 2 : 1)) {  // (i & 1 ? 2 : 1) ensures checking only odd numbers
         if (is_prime_miller(i, k)) return i;
     }
 

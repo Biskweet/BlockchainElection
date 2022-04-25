@@ -44,11 +44,8 @@ int main(int argc, char const *argv[]) {
 
     Protected *pr = init_protected(pKey, msg, sig2);
 
-    if (verify(pr)) {
-      printf("Signature valide.\n");
-    } else {
-      printf("Signature non valide.\n");
-    }
+    if (verify(pr)) printf("Signature valide.\n");
+    else printf("Signature non valide.\n");
 
     char* chaine3 = protected_to_str(pr);
     printf("protected_to_str: %s\n", chaine3);

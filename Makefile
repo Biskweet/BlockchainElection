@@ -3,12 +3,15 @@ CFLAGS=-Wall -lm -lcrypto
 FUNCTIONS=exercice1.o exercice2.o exercice3.o exercice4.o exercice5.o exercice6.o exercice7.o exercice8.o exercice9.o
 MAINS=main1 main2 main3 main4 main5 main6 main7 main8 main9
 
+# DO NOT add block.txt or testvotes.txt to the FILES variable
+FILES=benchmarks.txt benchmarks_proofofwork.txt keys.txt declarations.txt candidates.txt
+
 
 all: $(MAINS)
 
 
 clean:
-	rm -f *.o $(MAINS) vgcore.* ./blockchain/*
+	rm -f $(MAINS) $(FILES) *.o vgcore.* ./blockchain/* 
 
 
 exercice1.o: exercice1.c

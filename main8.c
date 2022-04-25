@@ -42,7 +42,7 @@ int main() {
 
     free(b->author);
     free(b2->author);
-    delete_tree(t, 0);
+    delete_tree(t);
 
     return 0;
 }

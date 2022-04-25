@@ -7,11 +7,16 @@ int main(int argc, char const *argv[]) {
     srand(time(NULL));
 
     system("rm -f ./blockchain/*");
-    generate_random_data(NBVOTERS, NBCANDIDATES);
 
+    printf("Generating random data... "); fflush(stdout);
+    generate_random_data(NBVOTERS, NBCANDIDATES);
+    printf("done.\n");
+
+    printf("Reading files... "); fflush(stdout);
     CellProtected* votes = read_protected("declarations.txt");
     CellKey* keys = read_public_keys("keys.txt");
     CellKey* candidates = read_public_keys("candidates.txt");
+    printf("done.\n");
 
     CellProtected* votes_copy = votes;
     CellTree* tree = NULL;
@@ -19,6 +24,7 @@ int main(int argc, char const *argv[]) {
     int count = 0, file_number = 0;
     char file_name[16];
 
+    printf("Building tree... "); fflush(stdout);
     while (votes != NULL) {
         submit_vote(votes->data);
 
@@ -34,7 +40,7 @@ int main(int argc, char const *argv[]) {
 
             free_all_protected_in_tree(tree);
             free_all_authors_in_tree(tree);
-            delete_tree(tree, 0);
+            delete_tree(tree);
 
             tree = read_tree();
         }
@@ -52,16 +58,21 @@ int main(int argc, char const *argv[]) {
 
         free_all_protected_in_tree(tree);
         free_all_authors_in_tree(tree);
-        delete_tree(tree, 0);
+        delete_tree(tree);
 
         tree = read_tree();
     }
+    printf("done.\n");
 
+    int should_print;
+    printf("\nPrint tree ? (0: No, 1: Yes) ");
+    scanf(" %d", &should_print);
+    if (should_print) print_tree(tree);
 
-    print_tree(tree);
     printf("\n");
 
     Key* winner = compute_winner_BT(tree, candidates, keys, NBCANDIDATES, NBVOTERS);
+
     if (winner != NULL) {
         printf("Winner: (%lx, %lx)\n", winner->val, winner->n);
         free(winner);
@@ -70,9 +81,7 @@ int main(int argc, char const *argv[]) {
     // Freeing tree
     free_all_authors_in_tree(tree);
     free_all_protected_in_tree(tree);
-
-    delete_tree(tree, 0);
-    
+    delete_tree(tree);
 
     // Freeing voters, candidates and votes 
     delete_list_protected(votes_copy);

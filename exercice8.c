@@ -60,25 +60,19 @@ void print_tree(CellTree* tree) {
 }
 
 
-void delete_node(CellTree* node, int full) {
-    if (full) fully_delete_block(node->block);
-    else delete_block(node->block);
-
+void delete_node(CellTree* node) {
+    delete_block(node->block);
     free(node);
 }
 
 
-void delete_tree(CellTree* node, int full) {
+void delete_tree(CellTree* node) {
     if (node == NULL) return;
 
-    delete_tree(node->nextBro, full);
+    delete_tree(node->nextBro);
+    delete_tree(node->firstChild);
 
-    while (node != NULL) {
-        CellTree* temp = node;
-        node = node->firstChild;
-        delete_node(temp, full);
-    }
-    // delete_tree(node->firstChild, full);
+    delete_node(node);
 }
 
 
