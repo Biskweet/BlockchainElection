@@ -1,5 +1,4 @@
 # Rapport de projet
-*Damoiseau-Malraux Gaspard & Blanchard-Billard Raphaël*  
 
 Ce projet cherche à reproduire un système de vote électronique sécurisé qui utilise le chiffrement par **RSA**, qui permet le chiffrement asymétrique de messages à l'aide d'une **clef privée** et d'une **clef publique**. La structure des données fonctionne selon un système de **blockchain**, pour assurer la **sécurité**, **l'authentification des votes** et la **décentralisation**.
 
